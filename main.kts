@@ -33,7 +33,12 @@ fun mathOp(num1: Int, num2: Int, func: (left: Int, right: Int) -> Int): Int {
 }
 // write a class "Person" with first name, last name and age
 class Person(val firstName: String, val lastName: String, var age: Int) {
-  public val debugString: String = "[Person firstName:$firstName lastName:$lastName age:$age]"
+  private var _debugString: String? = null
+  public val debugString: String
+    get() {
+      return "[Person firstName:$firstName lastName:$lastName age:$age]"
+    }
+
 
   override fun equals(other: Any?): Boolean {
     if (this.hashCode() - other.hashCode() == 0) {
@@ -86,7 +91,12 @@ data class Money(val amount: Int, val currency: String) {
   }
 
   init {
-
+    val curr = this.currency
+    if (this.amount < 0) {
+      throw NumberFormatException("Amount must be greater than 0")
+    } else if (curr != "USD" && curr != "GBP" && curr != "CAN" && curr != "EUR") {
+      throw IllegalArgumentException("Currency must be USD, GBP, or CAN")
+    }
   }
 }
 // ============ DO NOT EDIT BELOW THIS LINE =============
